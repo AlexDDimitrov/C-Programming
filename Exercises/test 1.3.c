@@ -1,19 +1,18 @@
 #include <stdio.h>
-void main();
-void o_to_c (float glass, float un);
 
-void main ()
+float o_to_c(float un);
+
+void main()
 {
     float u, g;
-    printf ("u = ");
+    printf("u = ");
     scanf("%f", &u);
 
-    u= o_to_c (un);
-    g=o_to_c (glass);
-    printf("The glasses are %.2f", g);
+    g = o_to_c(u);
+    printf("The glasses are %.2f\n", g);
 }
 
-void o_to_c (float glass, float un)
+float o_to_c(float un)
 {
-    glass=un/8;
+    return un / 8;
 }
