@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-float o_to_c(float un);
+int o_to_c(float un);
 
 void main()
 {
@@ -12,7 +12,7 @@ void main()
     printf("The glasses are %.2f\n", g);
 }
 
-float o_to_c(float un)
+int o_to_c(float un)
 {
     return un / 8;
 }
