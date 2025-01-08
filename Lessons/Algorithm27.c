@@ -43,7 +43,7 @@ void main() {
 
 
     int totalDays = den_num;
-    for (i = 1900; i < year; i++) {
+    for (i = 1; i < year; i++) {
         if (i % 4 == 0 && (i % 100 != 0 || i % 400 == 0)) {
             totalDays += 366; 
         } else {
@@ -73,7 +73,7 @@ void main() {
         case 6:
             printf("Sunday");
             break;
-        case 7:
+        case 0: case 7:
             printf("Monday");
             break;
         default:
