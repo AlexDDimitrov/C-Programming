@@ -1,7 +1,9 @@
 #include <stdio.h>
-void main ()
+int main ()
 {
     int i;
     for (i=1; i<101; i++) 
-    printf ("\n%d\n", i);
+    printf ("%d", i);
+    printf ("\n");
+    return 0;
 }
