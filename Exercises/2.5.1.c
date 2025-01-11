@@ -3,7 +3,6 @@ int main ()
 {
     int i;
     for (i=1; i<101; i++) 
-    printf ("%d", i);
-    printf ("\n");
+    printf ("\n%d\n", i);
     return 0;
 }
