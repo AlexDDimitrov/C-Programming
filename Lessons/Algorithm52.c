@@ -1,10 +1,10 @@
 #include<stdio.h>
 
-void dvoichno(int n)
+void binary(int n)
 {
     if(n>0)
     {
-        dvoichno(n/2);
+        binary(n/2);
         printf("%d", n%2);
     }
 }
@@ -16,5 +16,5 @@ void main()
         printf("Enter n = ");
         scanf("%d", &n);
     }while (n<0);
-    dvoichno(n);
+    binary(n);
 }
