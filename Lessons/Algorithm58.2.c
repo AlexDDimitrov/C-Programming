@@ -1,5 +1,5 @@
 #include<stdio.h>
-//Bubble sort//
+//Bubble sort - optimised//
 void main()
 {	
     int i, n;
