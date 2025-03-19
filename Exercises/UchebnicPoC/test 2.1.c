@@ -6,11 +6,12 @@ int main()
 {
     int k, n, i;
     srand(time(0)); 
-    k = rand() % 100 + 1; 
+    k = rand() % 100 + 1;
 
     for (i = 0; i < 10; i++)
     {
-        printf("\nEnter a number: ");
+
+        printf("\nEnter you guess: ");
         scanf("%d", &n);
 
         if (n == k)
@@ -25,6 +26,7 @@ int main()
                 printf("\nThe number is greater than %d.", n);
             else
                 printf("\nThe number is smaller than %d.", n);
+            printf("\nYou have %d tries left.\n", 9 - i);
         }
     }
 

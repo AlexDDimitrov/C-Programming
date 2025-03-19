@@ -1,10 +1,11 @@
 #include<stdio.h>
 #define MAX 10
-//Bubble sort - optimised//
+//Straight sort//
 void main()
 {	
     int i, n;
-    int j = 0;
+    int k;
+    int min = 0, mini;
     int A[MAX];
     do {
         printf("Enter the number of elements = ");
@@ -15,25 +16,20 @@ void main()
         printf("Enter element %d = ", i+1);
         scanf("%d", &A[i]);
     }
-    int sort;
-    for (i=0; i<n; i++)
+    for (i=0; i<n-1; i++)
     {
-        sort = 1;
-        for (j=0; j<n-i-1; j++)
+        min = A[i];
+        mini = i;
+        for(k = i+1; k<n; k++)
         {
-            if (A[j] > A[j+1])
+            if (A[k] < min)
             {
-                int k;
-                k = A[j];
-                A[j] = A[j+1];
-                A[j+1] = k;
-                sort = 0;
+                min = A[k];
+                mini = k;
             }
         }
-        if (sort == 1)
-        {
-            break;
-        }
+        A[mini] = A[i];
+        A[i] = min;
     }
     printf("The sorted array is: ");
     for (i=0; i<n; i++)

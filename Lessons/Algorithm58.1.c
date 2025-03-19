@@ -1,15 +1,16 @@
 #include<stdio.h>
+#define MAX 10
 //Bubble sort//
 void main()
 {	
     int i, n;
     int j = 0;
+    int A[MAX];
     do {
         printf("Enter the number of elements = ");
         scanf("%d", &n);
-    } while(n < 1);
+    } while(n < 1 || n > 10);
     i=n-1;
-    int A[i];
     for (i=0; i<n; i++){    
         printf("Enter element %d = ", i+1);
         scanf("%d", &A[i]);
