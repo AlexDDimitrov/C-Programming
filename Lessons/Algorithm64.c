@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #define MAX 30000
+//most efficient sorting//
 
 void bubble_sort(int arr[], int size) {
     int i, j, temp, sorted;
@@ -20,19 +21,18 @@ void bubble_sort(int arr[], int size) {
 }
 
 void straight_sort(int arr[], int size) {
-    int i, j, min, min_idx, temp;
+    int i, j, min, mini, temp;
     for (i = 0; i < size - 1; i++) {
         min = arr[i];
-        min_idx = i;
+        mini = i;
         for (j = i + 1; j < size; j++) {
             if (arr[j] < min) {
                 min = arr[j];
-                min_idx = j;
+                mini = j;
             }
         }
-        temp = arr[i];
-        arr[i] = arr[min_idx];
-        arr[min_idx] = temp;
+        arr[mini] = arr[i];
+        arr[i] = min;
     }
 }
 
