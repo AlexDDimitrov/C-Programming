@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+// колко пъти се среща даден стринг в  друг стринг//
 int main(){
     char str[21];
     char str2[21];

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+// текуща дължина//
 int main(){
     char str[21];
     int i, len = 0;
