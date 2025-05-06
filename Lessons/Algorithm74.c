@@ -23,7 +23,9 @@ int main(){
     if (j > 0 && str[j - 1] == ' ') {
         j--;
     }
+
     str[j] = '\0';
+    
     do{
         if(p=strchr(str, ' ')) {
             *p = '\n';
