@@ -74,7 +74,7 @@ int main() {
             }
         }
         for (i = 0; i < br; i++) {
-            printf("(%d, %d)\n", a[i][0], a[i][1]);
+            printf("%d, %d\n", a[i][0], a[i][1]);
         }
     } else {
         printf("Invalid brackets\n");
