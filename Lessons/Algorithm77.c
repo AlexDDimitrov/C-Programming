@@ -6,7 +6,7 @@ int main() {
     char c[MAX];
     int a[125][2];
     char *p;
-    int j, i = 0, open = 0, closed = 0, br = 0;
+    int j, i = 0, br = 0;
 
     printf("Enter string: ");
     fgets(c, MAX, stdin);
@@ -15,36 +15,26 @@ int main() {
     if (strchr(c, '(') && strchr(c, ')')) {
         for (i = 0; c[i]; i++) {
             if(c[i] != '(' && c[i] != ')' && c[i] != '\0') {
-                printf("Invalid brackets\n");
-                return 0;
+                break;
             }
         }
 
+        i=0;
         while (c[i]) {
             if (c[i] == '(') br++;
             else if (c[i] == ')') br--;
             if (br < 0) {
-                printf("Invalid brackets\n");
-                return 0;
+                break;
             }
             i++;
         }
 
         if (br != 0) {
-            printf("Invalid brackets\n");
-            return 0;
+            break;
         }
+        
 
-        for (i = 0; c[i]; i++) {
-            if (c[i] == '(') open++;
-            else if (c[i] == ')') closed++;
-        }
-    
 
-        if (open != closed) {
-            printf("Invalid brackets\n");
-            return 0;
-        }
         br = 0;
         for (i = 0; c[i]; i++) {
             if (c[i] == ')') {
@@ -76,10 +66,7 @@ int main() {
         for (i = 0; i < br; i++) {
             printf("%d, %d\n", a[i][0], a[i][1]);
         }
-    } else {
-        printf("Invalid brackets\n");
-        return 0;
     }
-
+    printf("Invalid brackets\n");
     return 0;
 }
