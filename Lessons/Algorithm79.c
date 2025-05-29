@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+// students' grades table with struct
 typedef struct{
     int num;
     char name[20];

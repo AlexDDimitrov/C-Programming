@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+// student info with a struct
 typedef struct{
     int num;
     char name[20];

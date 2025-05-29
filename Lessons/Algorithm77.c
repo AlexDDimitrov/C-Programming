@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #define MAX 251
-
+// brackets 
 int main() {
     char c[MAX];
     int a[125][2];

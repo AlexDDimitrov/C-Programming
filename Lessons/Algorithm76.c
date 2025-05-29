@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define max_students 30
 #define max_subjects 20
-
+//students' grades table 
 void main()
 {
     int n, m, i, j;
