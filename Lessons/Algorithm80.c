@@ -10,7 +10,7 @@ void badGrades(int n, int m);
 
 typedef struct{
     int num;
-    char name[20];
+    char name[20]; 
     int marks[20];
     float avr;
 } Tstudent;
