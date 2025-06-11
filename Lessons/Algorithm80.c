@@ -50,7 +50,7 @@ int main()
             do {
                 printf("Enter mark %d: ", j + 1);
                 scanf("%d", &students[i].marks[j]);
-            } while (students[i].marks[j] < 0 || students[i].marks[j] > 6);
+            } while (students[i].marks[j] < 2 || students[i].marks[j] > 6);
             getchar();
             students[i].avr += students[i].marks[j];
         }
@@ -141,29 +141,29 @@ void nameSort(int n, int m) {
         }
     }
 
-    printf("Subjects:   ");
+    printf("Subjects:                  ");
     for (j = 0; j < m; j++) {
-        printf("%d    ", j + 1);
+        printf("%-4d, ", j + 1);
     }
     printf("Average:\n");
 
     for (i = 0; i < n; i++) {
-        printf("%d %s :  ", i + 1, students[i].name);
+        printf("%-2d %-20s :  ", i + 1, students[i].name);
         float avr = 0;
         for (j = 0; j < m; j++) {
-            printf("%d    ", students[i].marks[j]);
+            printf("%-4d, ", students[i].marks[j]);
             avr += students[i].marks[j];
         }
         printf("%.2f\n", avr / m);
     }
 
-    printf("Average:    ");
+    printf("Average:                   ");
     for (j = 0; j < m; j++) {
         float avr = 0;
         for (i = 0; i < n; i++) {
             avr += students[i].marks[j];
         }
-        printf("%.2f ", avr / n);
+        printf("%.2f, ", avr / n);
     }
 
     float total_avr = 0;
@@ -189,29 +189,29 @@ void avrSort(int n, int m) {
             }
         }
     }
-    printf("Subjects:   ");
+    printf("Subjects:                  ");
     for (j = 0; j < m; j++) {
-        printf("%d    ", j + 1);
+        printf("%-4d, ", j + 1);
     }
     printf("Average:\n");
 
     for (i = 0; i < n; i++) {
-        printf("%d %s :  ", i + 1, students[i].name);
+        printf("%-2d %-20s :  ", i + 1, students[i].name);
         float avr = 0;
         for (j = 0; j < m; j++) {
-            printf("%d    ", students[i].marks[j]);
+            printf("%-4d, ", students[i].marks[j]);
             avr += students[i].marks[j];
         }
         printf("%.2f\n", avr / m);
     }
 
-    printf("Average:    ");
+    printf("Average:                   ");
     for (j = 0; j < m; j++) {
         float avr = 0;
         for (i = 0; i < n; i++) {
             avr += students[i].marks[j];
         }
-        printf("%.2f ", avr / n);
+        printf("%.2f, ", avr / n);
     }
 
     float total_avr = 0;
@@ -230,9 +230,9 @@ void goodGrades(int n, int m) {
     printf("Students with grades above 5.50:\n");
     for (i = 0; i < n; i++) {
         if (students[i].avr >= 5.50) {
-            printf("%d %s : ", students[i].num, students[i].name);
+            printf("%-2d %-20s : ", students[i].num, students[i].name);
             for (j = 0; j < m; j++) {
-                printf("%d ", students[i].marks[j]);
+                printf("%-4d ,", students[i].marks[j]);
             }
             printf("(Average: %.2f)\n", students[i].avr);
         }
@@ -245,9 +245,9 @@ void badGrades(int n, int m) {
     printf("Students with grades below 2.50:\n");
     for (i = 0; i < n; i++) {
         if (students[i].avr <= 2.50) {
-            printf("%d %s : ", students[i].num, students[i].name);
+             printf("%-2d %-20s : ", students[i].num, students[i].name);
             for (j = 0; j < m; j++) {
-                printf("%d ", students[i].marks[j]);
+                printf("%-4d ,", students[i].marks[j]);
             }
             printf("(Average: %.2f)\n", students[i].avr);
         }

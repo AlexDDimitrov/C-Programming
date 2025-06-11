@@ -26,16 +26,16 @@ int main() {
         do{
             printf("Enter mark %d: ", i + 1);
             scanf("%d", &st.marks[i]);
-        } while (st.marks[i] < 0 || st.marks[i] > 6);
+        } while (st.marks[i] < 2 || st.marks[i] > 6);
         st.avr += st.marks[i];
     }
 
     st.avr /= m;
 
-    printf("Name: %s\n", st.name);
+    printf("Name: %-20s\n", st.name);
     printf("Marks: ");
     for(int i = 0; i < m; i++) {
-        printf("%d, ", st.marks[i]);
+        printf("%-4d, ", st.marks[i]);
     }
     printf("\n");
     printf("Average mark: %.2f\n", st.avr);
