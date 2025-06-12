@@ -2,7 +2,7 @@
 #include <conio.h>
 #include <stdlib.h>
 //menu//
-int main(void)
+int main()
 {
     int a = 1; 
     int n, m, i, j;
