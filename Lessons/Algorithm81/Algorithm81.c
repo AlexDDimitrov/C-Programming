@@ -2,7 +2,12 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <string.h>
-//menu//
+
+void write_on_file(char *filename);
+void read_file(char *filename);
+void add_on_file(char *filename);
+void choose_file(char *filename);
+
 int main()
 {
     int a = 1; 
@@ -10,7 +15,7 @@ int main()
     char c;
     int nfile;
     char *p;
-    char filename[20];
+    char filename[20] = "";
     char line[100];
     m=0;
     do
@@ -51,75 +56,19 @@ int main()
             {
             case 1:
                 system("cls");
-                printf("Enter filename: ");
-                fgets(filename, sizeof(filename), stdin);
-                if ((p = strchr(filename, '\n'))) *p = '\0';
-                printf("File '%s' selected.\n", filename);
+                choose_file(filename);
                 break;
             case 2:
-                if (strlen(filename) == 0) {
-                    printf("No file selected! Choose a file first.\n");
-                    break;
-                }
                 system("cls");
-                nfile = 100;
-                    FILE *f = fopen(filename, "w");
-                if (!f) {
-                    printf("Error opening file.\n");
-                } else {
-                    for (int ifile = 0; ifile < nfile; ifile++) {
-                        fgets(line, sizeof(line), stdin);
-                        if (strcmp(line, "and\n") == 0) {
-                            char *p;
-                            if ((p = strchr(line, 'and\n'))) *p = '\n';
-                            printf("Ending input...\n");
-                            break;
-                        }
-                        fprintf(f, "%s", line);
-                    }
-                    fclose(f);
-                }
+                write_on_file(filename);
                 break;
             case 3:
-                if (strlen(filename) == 0) {
-                printf("No file selected! Choose a file first.\n");
-                break;
-                }
-
-                FILE *fread = fopen(filename, "r");
-                if (!fread) {
-                    printf("Error opening file '%s' for reading.\n", filename);
-                } else {
-                    printf("Contents of '%s':\n", filename);
-                    while (fgets(line, sizeof(line), fread)) {
-                        printf("%s", line);
-                    }
-                    fclose(fread);
-                }
+                system("cls");
+                read_file(filename);
                 break;
             case 4:
-                if (strlen(filename) == 0) {
-                    printf("No file selected! Choose a file first.\n");
-                    break;
-                }
                 system("cls");
-                nfile = 100;
-                FILE *fappend = fopen(filename, "a");
-                if (!fappend) {
-                    printf("Error opening file.\n");
-                } else {
-                    for (int ifile = 0; ifile < nfile; ifile++) {
-                        fgets(line, sizeof(line), stdin);
-                        if (strcmp(line, "and\n") == 0) {
-                            char *p;
-                            if ((p = strchr(line, 'and\n'))) *p = '\n';
-                            printf("Ending input...\n");
-                            break;
-                        }
-                        fprintf(fappend, "%s", line);
-                    }
-                    fclose(fappend);
-                }
+                add_on_file(filename);
                 break;
             case 5:
                 printf("Quitting...\n");
@@ -136,4 +85,82 @@ int main()
     } while (m==0);
 
     return 0;
+}
+
+void choose_file(char *filename)
+{
+    char *p;
+    printf("Enter filename: ");
+    fgets(filename, sizeof(filename), stdin);
+    if ((p = strchr(filename, '\n'))) *p = '\0';
+    printf("File '%s' selected.\n", filename);
+}
+
+void write_on_file(char *filename)
+{
+    if (strlen(filename) == 0) {
+        printf("No file selected! Choose a file first.\n");
+        return;
+    }
+    system("cls");
+    char line[100];
+    FILE *f = fopen(filename, "w");
+    if (!f) {
+        printf("Error opening file.\n");
+    } else {
+        while(1){
+            fgets(line, sizeof(line), stdin);
+            if (strcmp(line, "end\n") == 0) {
+                printf("Ending input...\n");
+                break;
+            }
+            fprintf(f, "%s", line);
+        }
+        fclose(f);
+    }
+}
+
+void read_file(char *filename)
+{
+    if (strlen(filename) == 0) {
+        printf("No file selected! Choose a file first.\n");
+        return;
+    }
+    char line[100];
+    FILE *f = fopen(filename, "r");
+    if (!f) {
+        printf("Error opening file '%s' for reading.\n", filename);
+    } else {
+        printf("Contents of '%s':\n", filename);
+        while (!feof(f)) {
+            if (fgets(line, sizeof(line), f)) {
+                printf("%s", line);
+            }
+        }
+        fclose(f);
+    }
+}
+
+void add_on_file(char *filename)
+{
+    if (strlen(filename) == 0) {
+        printf("No file selected! Choose a file first.\n");
+        return;
+    }
+    system("cls");
+    char line[100];
+    FILE *f = fopen(filename, "a");
+    if (!f) {
+        printf("Error opening file.\n");
+    } else {
+        while(1){
+            fgets(line, sizeof(line), stdin);
+            if (strcmp(line, "end\n") == 0) {
+                printf("Ending input...\n");
+                break;
+            }
+            fprintf(f, "%s", line);
+        }
+        fclose(f);
+    }
 }
