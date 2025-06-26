@@ -10,6 +10,7 @@ void read_file(char *filename);
 void add_on_file(char *filename);
 void choose_file(char *filename);
 void delete_file(char *filename);
+void edit_file(char *filename);
 
 typedef struct {
     int num;
@@ -50,7 +51,10 @@ int main()
         printf("5. Delete file\n");
         if (a == 6) printf(">");
         else printf(" ");
-        printf("6. Quit\n");
+        printf("6. Edit file\n");
+        if (a == 7) printf(">");
+        else printf(" ");
+        printf("7. Quit\n");
 
         c = getch();
 
@@ -61,8 +65,8 @@ int main()
             if (c == 80) a++; 
         }
 
-        if (a > 6) a = 1;
-        if (a < 1) a = 6;
+        if (a > 7) a = 1;
+        if (a < 1) a = 7;
 
         if (c == '\r')
         {
@@ -89,11 +93,15 @@ int main()
                 delete_file(filename);
                 break;
             case 6:
+                system("cls");
+                edit_file(filename);
+                break;
+            case 7:
                 printf("Quitting...\n");
                 m=1;
                 break;
             }
-            if (a != 6)
+            if (a != 7)
             {
                 printf("Press any key to continue...\n");
                 getch();
@@ -292,5 +300,83 @@ void delete_file(char *filename)
         fclose(f);
 
         printf("Student number %d deleted successfully.\n", del_num);
+    }
+}
+
+void edit_file(char *filename)
+{
+    FILE *f;
+    Student students[100];
+    int count = 0, i, edit_num, found = 0;
+
+    if (strlen(filename) == 0) {
+        printf("No file selected! Choose a file first.\n");
+        return;
+    }
+
+    f = fopen(filename, "r");
+    if (!f) {
+        printf("ERROR OPEN FILE FOR READING!\n");
+        return;
+    }
+    else {
+        while (fread(&s, sizeof(s), 1, f)) {
+            count++;
+            students[count - 1] = s;
+        }
+        fclose(f);
+
+        if (count == 0) {
+            printf("File is empty.\n");
+            return;
+        }
+
+        printf("Enter student number to edit: ");
+        scanf("%d", &edit_num);
+        getchar();
+
+        for (i = 0; i < count; i++) {
+            if (students[i].num == edit_num) {
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found) {
+            printf("Student number %d not found.\n", edit_num);
+            return;
+        }
+
+        printf("Editing student number %d:\n", edit_num);
+        printf("Current Name: %s\n", students[i].name);
+        printf("New Name: ");
+        fgets(students[i].name, sizeof(students[i].name), stdin);
+        char *p = strchr(students[i].name, '\n');
+        if (p) *p = '\0';
+
+        int j = 0; students[i].average = 0;
+        while(1)
+        {
+            printf("Mark %d: ", j + 1);
+            scanf("%d", &students[i].marks[j]);
+            if(students[i].marks[j] == 0) break;
+            students[i].average += students[i].marks[j];
+            j++;
+        }
+        if(j > 0) students[i].average /= j;
+
+        f = fopen(filename, "w");
+        if (!f) {
+            printf("ERROR OPEN FILE FOR WRITING!\n");
+            return;
+        }
+        
+        for (i = 0; i < count; i++) {
+            fwrite(&students[i], sizeof(Student), 1, f);
+        }
+        
+        fclose(f);
+
+        printf("Student number %d edited successfully.\n", edit_num);
     }
 }
