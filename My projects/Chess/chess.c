@@ -71,10 +71,12 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
             if (tr == fr - 1 && abs(tc - fc) == 1) {
                 if (board[tr][tc] >= 'a' && board[tr][tc] <= 'z') {
                     if (tr == 0) {
-                        printf("Promotion! To which piece? ");
-                        char promotion;
-                        scanf(" %c", &promotion);
-                        board[tr][tc] = toupper(promotion);
+                        do{
+                            printf("Promotion! To which piece? ");
+                            char promotion;
+                            scanf(" %c", &promotion);
+                            board[tr][tc] = toupper(promotion);
+                        } while (board[tr][tc] != 'Q' && board[tr][tc] != 'R' && board[tr][tc] != 'B' && board[tr][tc] != 'N');
                     } else {
                         board[tr][tc] = 'P';
                     }
@@ -130,10 +132,12 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
             if (tr == fr + 1 && abs(tc - fc) == 1) {
                 if (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z') {
                     if (tr == 7) {
-                        printf("Promotion! To which piece? ");
-                        char promotion;
-                        scanf(" %c", &promotion);
-                        board[tr][tc] = tolower(promotion);
+                        do{
+                            printf("Promotion! To which piece? ");
+                            char promotion;
+                            scanf(" %c", &promotion);
+                            board[tr][tc] = tolower(promotion);
+                        } while (board[tr][tc] != 'q' && board[tr][tc] != 'r' && board[tr][tc] != 'b' && board[tr][tc] != 'n');
                     } else {
                         board[tr][tc] = 'p';
                     }
