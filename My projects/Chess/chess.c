@@ -34,7 +34,124 @@ int parse_pos(const char *pos, int *row, int *col) {
     return 1;
 }
 
+int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
+    char from[4], to[4];
+    int fr, fc, tr, tc;
+
+    while (1) {
+        printf("White move\nMove piece from: ");
+        scanf("%3s", from);
+        printf("to: ");
+        scanf("%3s", to);
+
+        if (!parse_pos(from, &fr, &fc) || !parse_pos(to, &tr, &tc)) {
+            printf("Invalid coordinates.\n");
+            continue;
+        }
+
+        if (board[fr][fc] == 'P') {
+            if (tr == fr - 1 && tc == fc && board[tr][tc] == 0) {
+                // 1-step forward
+                if (tr == 0) {
+                    printf("You have reached the promotion row!\nTo which piece do you want to promote to: ");
+                    char promotion;
+                    scanf(" %c", &promotion);
+                    board[tr][tc] = toupper(promotion);
+                } else {
+                    board[tr][tc] = 'P';
+                }
+                board[fr][fc] = 0;
+                return 1;
+            }
+            if (fr == 6 && tr == fr - 2 && tc == fc && board[fr - 1][fc] == 0 && board[tr][tc] == 0) {
+                board[tr][tc] = 'P';
+                board[fr][fc] = 0;
+                *en_passant_row = fr - 1;
+                *en_passant_col = fc;
+                return 1;
+            }
+            if (tr == fr - 1 && abs(tc - fc) == 1 && board[tr][tc] >= 'a' && board[tr][tc] <= 'z') {
+                if (tr == 0) {
+                    printf("You have reached the promotion row!\nTo which piece do you want to promote to: ");
+                    char promotion;
+                    scanf(" %c", &promotion);
+                    board[tr][tc] = toupper(promotion);
+                } else {
+                    board[tr][tc] = 'P';
+                }
+                board[fr][fc] = 0;
+                return 1;
+            }
+            if (tr == *en_passant_row && tc == *en_passant_col && board[fr][tc] == 'p') {
+                board[tr][tc] = 'P';
+                board[fr][fc] = 0;
+                board[fr][tc] = 0;
+                return 1;
+            }
+        }
+    }
+}
+
+int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
+    char from[4], to[4];
+    int fr, fc, tr, tc;
+
+    while (1) {
+        printf("Black move\nMove piece from: ");
+        scanf("%3s", from);
+        printf("to: ");
+        scanf("%3s", to);
+
+        if (!parse_pos(from, &fr, &fc) || !parse_pos(to, &tr, &tc)) {
+            printf("Invalid coordinates.\n");
+            continue;
+        }
+
+        if (board[fr][fc] == 'p') {
+            if (tr == fr + 1 && tc == fc && board[tr][tc] == 0) {
+                if (tr == 7) {
+                    printf("You have reached the promotion row!\nTo which piece do you want to promote to: ");
+                    char promotion;
+                    scanf(" %c", &promotion);
+                    board[tr][tc] = tolower(promotion);
+                } else {
+                    board[tr][tc] = 'p';
+                }
+                board[fr][fc] = 0;
+                return 1;
+            }
+            if (fr == 1 && tr == fr + 2 && tc == fc && board[fr + 1][fc] == 0 && board[tr][tc] == 0) {
+                board[tr][tc] = 'p';
+                board[fr][fc] = 0;
+                *en_passant_row = fr + 1;
+                *en_passant_col = fc;
+                return 1;
+            }
+            if (tr == fr + 1 && abs(tc - fc) == 1 && board[tr][tc] >= 'A' && board[tr][tc] <= 'Z') {
+                if (tr == 7) {
+                    printf("You have reached the promotion row!\nTo which piece do you want to promote to: ");
+                    char promotion;
+                    scanf(" %c", &promotion);
+                    board[tr][tc] = tolower(promotion);
+                } else {
+                    board[tr][tc] = 'p';
+                }
+                board[fr][fc] = 0;
+                return 1;
+            }
+            if (tr == *en_passant_row && tc == *en_passant_col && board[fr][tc] == 'P') {
+                board[tr][tc] = 'p';
+                board[fr][fc] = 0;
+                board[fr][tc] = 0;
+                return 1;
+            }
+        }
+    }
+}
+
 int main() {
+    int en_passant_row = -1;
+    int en_passant_col = -1;
     char board[8][8] = {0};
     int fr, fc, tr, tc;
     char from[4], to[4];
@@ -52,44 +169,13 @@ int main() {
     while (1) {
         system("cls");
         print_board(board);
+        movingWhite(board, &en_passant_row, &en_passant_col);
 
         system("cls");
         print_board(board);
+        movingBlack(board, &en_passant_row, &en_passant_col);
 
-        printf("White move\nMove piece from: ");
-        scanf("%3s", from);
-        printf("to: ");
-        scanf("%3s", to);
-
-        if (!parse_pos(from, &fr, &fc) || !parse_pos(to, &tr, &tc))
-            continue;
-
-        // Only allow moving a white pawn ('P')
-        if (board[fr][fc] == 'P') {
-            // Only allow forward move by 1
-            if (tr == fr - 1 && tc == fc && board[tr][tc] == 0) {
-            board[tr][tc] = 'P';
-            board[fr][fc] = 0;
-            }
-        }
-
-        system("cls");
-        print_board(board);
-        printf("Black move\nMove piece from: ");
-        scanf("%3s", from);
-        printf("to: ");
-        scanf("%3s", to);
-
-        if (!parse_pos(from, &fr, &fc) || !parse_pos(to, &tr, &tc))
-            continue;
-
-        // Only allow moving a black pawn ('p')
-        if (board[fr][fc] == 'p') {
-            // Only allow forward move by 1
-            if (tr == fr + 1 && tc == fc && board[tr][tc] == 0) {
-                board[tr][tc] = 'p';
-                board[fr][fc] = 0;
-            }
-        }
+        en_passant_row = -1;
+        en_passant_col = -1;
     }
 }
