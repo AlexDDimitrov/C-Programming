@@ -2,7 +2,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-//color codes
 #define COLOR_BROWN "\033[33m"
 #define COLOR_WHITE "\033[97m"
 #define COLOR_RESET "\033[0m"
@@ -34,6 +33,11 @@ int parse_pos(const char *pos, int *row, int *col) {
 }
 
 int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
+    int knight_moves[8][2] = {
+        {2, 1}, {1, 2}, {-1, 2}, {-2, 1},
+        {-2, -1}, {-1, -2}, {1, -2}, {2, -1}
+    };
+
     char from[4], to[4];
     int fr, fc, tr, tc;
 
@@ -91,10 +95,29 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 }
             }
         }
+
+        if (board[fr][fc] == 'N') {
+            for (int i = 0; i < 8; i++) {
+                int dr = knight_moves[i][0];
+                int dc = knight_moves[i][1];
+                if (fr + dr == tr && fc + dc == tc) {
+                    if (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z')) {
+                        board[tr][tc] = 'N';
+                        board[fr][fc] = 0;
+                        return 1;
+                    }
+                }
+            }
+        }
     }
 }
 
 int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
+    int knight_moves[8][2] = {
+        {2, 1}, {1, 2}, {-1, 2}, {-2, 1},
+        {-2, -1}, {-1, -2}, {1, -2}, {2, -1}
+    };
+
     char from[4], to[4];
     int fr, fc, tr, tc;
 
@@ -149,6 +172,20 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
                     board[fr][fc] = 0;
                     board[fr][tc] = 0;
                     return 1;
+                }
+            }
+        }
+
+        if (board[fr][fc] == 'n') {
+            for (int i = 0; i < 8; i++) {
+                int dr = knight_moves[i][0];
+                int dc = knight_moves[i][1];
+                if (fr + dr == tr && fc + dc == tc) {
+                    if (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z')) {
+                        board[tr][tc] = 'n';
+                        board[fr][fc] = 0;
+                        return 1;
+                    }
                 }
             }
         }
