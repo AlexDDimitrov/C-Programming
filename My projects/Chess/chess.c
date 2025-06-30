@@ -109,6 +109,39 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 }
             }
         }
+
+        if (board[fr][fc] == 'R') {
+            if (fr == tr)
+            {
+                int step = (tc > fc) ? 1 : -1;
+                int blocked = 0;
+                for (int c = fc + step; c != tc; c += step) {
+                    if (board[fr][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
+                    board[tr][tc] = 'R';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            } else if (fc == tc) {
+                int step = (tr > fr) ? 1 : -1;
+                int blocked = 0;
+                for (int r = fr + step; r != tr; r += step) {
+                    if (board[r][fc] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
+                    board[tr][tc] = 'R';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            }
+        }
     }
 }
 
@@ -186,6 +219,37 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
                         board[fr][fc] = 0;
                         return 1;
                     }
+                }
+            }
+        }
+        if (board[fr][fc] == 'r') {
+            if (fr == tr) {
+                int step = (tc > fc) ? 1 : -1;
+                int blocked = 0;
+                for (int c = fc + step; c != tc; c += step) {
+                    if (board[fr][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
+                    board[tr][tc] = 'r';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            } else if (fc == tc) {
+                int step = (tr > fr) ? 1 : -1;
+                int blocked = 0;
+                for (int r = fr + step; r != tr; r += step) {
+                    if (board[r][fc] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
+                    board[tr][tc] = 'r';
+                    board[fr][fc] = 0;
+                    return 1;
                 }
             }
         }
