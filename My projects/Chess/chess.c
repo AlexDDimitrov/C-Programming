@@ -5,6 +5,7 @@
 #define COLOR_BROWN "\033[33m"
 #define COLOR_WHITE "\033[97m"
 #define COLOR_RESET "\033[0m"
+#define COLOR_RED "\033[31m"
 
 void print_board(char board[8][8]) {
     for (int i = 7; i >= 0; i--) {
@@ -42,13 +43,13 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
     int fr, fc, tr, tc;
 
     while (1) {
-        printf("White move\nMove piece from: ");
+        printf("White move\nMove piece\nFrom: ");
         scanf("%3s", from);
-        printf("to: ");
+        printf("To: ");
         scanf("%3s", to);
 
         if (!parse_pos(from, &fr, &fc) || !parse_pos(to, &tr, &tc)) {
-            printf("Invalid coordinates.\n");
+            printf(COLOR_RED "Invalid coordinates.\n" COLOR_RESET);
             continue;
         }
 
@@ -178,13 +179,14 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
     int fr, fc, tr, tc;
 
     while (1) {
-        printf("Black move\nMove piece from: ");
+        printf(COLOR_BROWN "Black move\nMove piece \nFrom: ");
         scanf("%3s", from);
-        printf("to: ");
+        printf(COLOR_BROWN "To: ");
         scanf("%3s", to);
+        printf(COLOR_RESET);
 
         if (!parse_pos(from, &fr, &fc) || !parse_pos(to, &tr, &tc)) {
-            printf("Invalid coordinates.\n");
+            printf(COLOR_RED "Invalid coordinates.\n" COLOR_RESET);
             continue;
         }
 
