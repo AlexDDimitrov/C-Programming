@@ -142,6 +142,29 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 }
             }
         }
+        if (board[fr][fc] == 'B') {
+            if (abs(tr - fr) == abs(tc - fc)) {
+                int row_step = (tr > fr) ? 1 : -1;
+                int col_step = (tc > fc) ? 1 : -1;
+                int r = fr + row_step, c = fc + col_step;
+                int blocked = 0;
+
+                while (r != tr && c != tc) {
+                    if (board[r][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                    r += row_step;
+                    c += col_step;
+                }
+
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
+                    board[tr][tc] = 'B';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            }
+        }
     }
 }
 
@@ -248,6 +271,30 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 }
                 if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
                     board[tr][tc] = 'r';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            }
+        }
+
+        if (board[fr][fc] == 'b') {
+            if (abs(tr - fr) == abs(tc - fc)) {
+                int row_step = (tr > fr) ? 1 : -1;
+                int col_step = (tc > fc) ? 1 : -1;
+                int r = fr + row_step, c = fc + col_step;
+                int blocked = 0;
+
+                while (r != tr && c != tc) {
+                    if (board[r][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                    r += row_step;
+                    c += col_step;
+                }
+
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
+                    board[tr][tc] = 'b';
                     board[fr][fc] = 0;
                     return 1;
                 }
