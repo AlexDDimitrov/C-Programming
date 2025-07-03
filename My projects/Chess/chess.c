@@ -166,6 +166,57 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 }
             }
         }
+        if (board[fr][fc] == 'Q') {
+            if (fr == tr) {
+                int step = (tc > fc) ? 1 : -1;
+                int blocked = 0;
+                for (int c = fc + step; c != tc; c += step) {
+                    if (board[fr][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
+                    board[tr][tc] = 'Q';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            } else if (fc == tc) {
+                int step = (tr > fr) ? 1 : -1;
+                int blocked = 0;
+                for (int r = fr + step; r != tr; r += step) {
+                    if (board[r][fc] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
+                    board[tr][tc] = 'Q';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            } else if (abs(tr - fr) == abs(tc - fc)) {
+                int row_step = (tr > fr) ? 1 : -1;
+                int col_step = (tc > fc) ? 1 : -1;
+                int r = fr + row_step, c = fc + col_step;
+                int blocked = 0;
+
+                while (r != tr && c != tc) {
+                    if (board[r][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                    r += row_step;
+                    c += col_step;
+                }
+
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
+                    board[tr][tc] = 'Q';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            }
+        }
     }
 }
 
@@ -297,6 +348,58 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
 
                 if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
                     board[tr][tc] = 'b';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            }
+        }
+
+        if (board[fr][fc] == 'q') {
+            if (fr == tr) {
+                int step = (tc > fc) ? 1 : -1;
+                int blocked = 0;
+                for (int c = fc + step; c != tc; c += step) {
+                    if (board[fr][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
+                    board[tr][tc] = 'q';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            } else if (fc == tc) {
+                int step = (tr > fr) ? 1 : -1;
+                int blocked = 0;
+                for (int r = fr + step; r != tr; r += step) {
+                    if (board[r][fc] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                }
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
+                    board[tr][tc] = 'q';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            } else if (abs(tr - fr) == abs(tc - fc)) {
+                int row_step = (tr > fr) ? 1 : -1;
+                int col_step = (tc > fc) ? 1 : -1;
+                int r = fr + row_step, c = fc + col_step;
+                int blocked = 0;
+
+                while (r != tr && c != tc) {
+                    if (board[r][c] != 0) {
+                        blocked = 1;
+                        break;
+                    }
+                    r += row_step;
+                    c += col_step;
+                }
+
+                if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
+                    board[tr][tc] = 'q';
                     board[fr][fc] = 0;
                     return 1;
                 }
