@@ -217,6 +217,16 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 }
             }
         }
+        
+        if (board[fr][fc] == 'K') {
+            if (abs(tr - fr) <= 1 && abs(tc - fc) <= 1) {
+                if (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z')) {
+                    board[tr][tc] = 'K';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            }
+        }
     }
 }
 
@@ -400,6 +410,16 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
 
                 if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
                     board[tr][tc] = 'q';
+                    board[fr][fc] = 0;
+                    return 1;
+                }
+            }
+        }
+
+        if (board[fr][fc] == 'k') {
+            if (abs(tr - fr) <= 1 && abs(tc - fc) <= 1) {
+                if (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z')) {
+                    board[tr][tc] = 'k';
                     board[fr][fc] = 0;
                     return 1;
                 }
