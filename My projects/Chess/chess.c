@@ -6,6 +6,7 @@
 #define COLOR_WHITE "\033[97m"
 #define COLOR_RESET "\033[0m"
 #define COLOR_RED "\033[31m"
+#define COLOR_GREEN "\033[32m"
 
 void print_board(char board[8][8]) {
     for (int i = 7; i >= 0; i--) {
