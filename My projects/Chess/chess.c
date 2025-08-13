@@ -34,6 +34,15 @@ int parse_pos(const char *pos, int *row, int *col) {
     return 1;
 }
 
+int white_king_moved = 0;
+int white_rook_kingside_moved = 0;
+int white_rook_queenside_moved = 0;
+
+int black_king_moved = 0;
+int black_rook_kingside_moved = 0;
+int black_rook_queenside_moved = 0;
+
+
 int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
     int knight_moves[8][2] = {
         {2, 1}, {1, 2}, {-1, 2}, {-2, 1},
@@ -126,6 +135,11 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
                     board[tr][tc] = 'R';
                     board[fr][fc] = 0;
+                    if (fr == 7 && fc == 7) {
+                        white_rook_kingside_moved = 1;
+                    } else if (fr == 7 && fc == 0) {
+                        white_rook_queenside_moved = 1;
+                    }
                     return 1;
                 }
             } else if (fc == tc) {
@@ -140,6 +154,11 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z'))) {
                     board[tr][tc] = 'R';
                     board[fr][fc] = 0;
+                    if (fr == 7 && fc == 7) {
+                        white_rook_kingside_moved = 1;
+                    } else if (fr == 7 && fc == 0) {
+                        white_rook_queenside_moved = 1;
+                    }
                     return 1;
                 }
             }
@@ -224,10 +243,38 @@ int movingWhite(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 if (board[tr][tc] == 0 || (board[tr][tc] >= 'a' && board[tr][tc] <= 'z')) {
                     board[tr][tc] = 'K';
                     board[fr][fc] = 0;
+                    white_king_moved = 1;
                     return 1;
                 }
             }
         }
+        if (board[fr][fc] == 'K' && fr == 7 && fc == 4) {
+
+    // Kingside castling
+    if (tr == 7 && tc == 6 && !white_king_moved && !white_rook_kingside_moved &&
+        board[7][5] == 0 && board[7][6] == 0 && board[7][7] == 'R') {
+        board[7][6] = 'K';
+        board[7][5] = 'R';
+        board[7][4] = 0;
+        board[7][7] = 0;
+        white_king_moved = 1;
+        white_rook_kingside_moved = 1;
+        return 1;
+    }
+
+    // Queenside castling
+    if (tr == 7 && tc == 2 && !white_king_moved && !white_rook_queenside_moved &&
+        board[7][1] == 0 && board[7][2] == 0 && board[7][3] == 0 && board[7][0] == 'R') {
+        board[7][2] = 'K';
+        board[7][3] = 'R';
+        board[7][4] = 0;
+        board[7][0] = 0;
+        white_king_moved = 1;
+        white_rook_queenside_moved = 1;
+        return 1;
+    }
+}
+    printf(COLOR_RED "Invalid move. Try again.\n" COLOR_RESET);
     }
 }
 
@@ -322,6 +369,11 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
                     board[tr][tc] = 'r';
                     board[fr][fc] = 0;
+                    if (fr == 0 && fc == 7) {
+                        black_rook_kingside_moved = 1;
+                    } else if (fr == 0 && fc == 0) {
+                        black_rook_queenside_moved = 1;
+                    }
                     return 1;
                 }
             } else if (fc == tc) {
@@ -336,6 +388,11 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 if (!blocked && (board[tr][tc] == 0 || (board[tr][tc] >= 'A' && board[tr][tc] <= 'Z'))) {
                     board[tr][tc] = 'r';
                     board[fr][fc] = 0;
+                    if (fr == 0 && fc == 7) {
+                        black_rook_kingside_moved = 1;
+                    } else if (fr == 0 && fc == 0) {
+                        black_rook_queenside_moved = 1;
+                    }
                     return 1;
                 }
             }
@@ -426,6 +483,33 @@ int movingBlack(char board[8][8], int *en_passant_row, int *en_passant_col) {
                 }
             }
         }
+
+        if (board[fr][fc] == 'k' && fr == 0 && fc == 4) {
+    // Kingside castling
+    if (tr == 0 && tc == 6 && !black_king_moved && !black_rook_kingside_moved &&
+        board[0][5] == 0 && board[0][6] == 0 && board[0][7] == 'r') {
+        board[0][6] = 'k';
+        board[0][5] = 'r';
+        board[0][4] = 0;
+        board[0][7] = 0;
+        black_king_moved = 1;
+        black_rook_kingside_moved = 1;
+        return 1;
+    }
+
+    // Queenside castling
+    if (tr == 0 && tc == 2 && !black_king_moved && !black_rook_queenside_moved &&
+        board[0][1] == 0 && board[0][2] == 0 && board[0][3] == 0 && board[0][0] == 'r') {
+        board[0][2] = 'k';
+        board[0][3] = 'r';
+        board[0][4] = 0;
+        board[0][0] = 0;
+        black_king_moved = 1;
+        black_rook_queenside_moved = 1;
+        return 1;
+    }
+}
+        printf(COLOR_RED "Invalid move. Try again.\n" COLOR_RESET);
     }
 }
 
