@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void turnBinary(int n){
+/*void turnBinary(int n){
     int arr[100];
     int max = 0;
 
@@ -16,6 +16,13 @@ void turnBinary(int n){
     }
 
     printf("%ld\n", binaryNumber);
+}*/
+
+void turnBinary(int n) {
+    if (n > 1) {
+        turnBinary(n / 2);
+    }
+    printf("%d", n % 2);
 }
 
 int main() {   
