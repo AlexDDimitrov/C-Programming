@@ -22,4 +22,5 @@ int main(){
 
     mult = res;
     printf("%d", res);
+    return 0;
 }

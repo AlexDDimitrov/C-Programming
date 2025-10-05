@@ -43,4 +43,5 @@ int main() {
 
     int s = sum(n);
     printf("Sum = %d", s);
+    return 0;
 }
