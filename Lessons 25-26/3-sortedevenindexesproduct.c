@@ -15,7 +15,7 @@ void bubblesort(int *arr, int arrlen) {
   for (int i = 0; i < arrlen - 1 && !sorted; i++) {
     sorted = 1;
     for (int j = 0; j < arrlen - i - 1; j++) {
-      if (arr[i] < arr[i+1]) {
+      if (arr[j] > arr[j+1]) {
         int temp = arr[j];
         arr[j] = arr[j+1];
         arr[j+1] = temp;
@@ -27,8 +27,8 @@ void bubblesort(int *arr, int arrlen) {
 
 int sortedevenindexesproduct(int *arr, int arrlen) {
   bubblesort(arr, arrlen);
-  int product = 0;
-  for (int i = 1; i < arrlen; i+=2) {
+  int product = 1;
+  for (int i = 2; i < arrlen; i+=2) {
     product *= arr[i];
   }
   return product;

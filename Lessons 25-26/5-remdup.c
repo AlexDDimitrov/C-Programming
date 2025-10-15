@@ -16,7 +16,7 @@ int removeDuplicates(int* nums, int numsSize){
     char curel = nums[0];
     int k = 1;
     for (int i = 1; i < numsSize; i++) {
-        if (nums[i] >= curel) {
+        if (nums[i] != curel) {
             nums[k] = nums[i];
             curel = nums[k];
             k++;

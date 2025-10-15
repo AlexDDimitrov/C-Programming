@@ -37,7 +37,7 @@ void inssortdesc(char arr[7][10], int arrlen) {
 int binsearch(char arr[7][10], int arrlen, char search[]) {
   int left = 0;
   int right = arrlen - 1;
-  while (left < right) {
+  while (left <= right) {
     int mid = (right + left) / 2;
     if (strcmp(arr[mid], search) == 0) return mid;
 
