@@ -1,0 +1,3 @@
+cd 12.11
+gcc numToPow4.c -o numToPow4.exe
+./numToPow4.exe

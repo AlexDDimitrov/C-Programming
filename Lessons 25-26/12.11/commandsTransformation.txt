@@ -1,0 +1,4 @@
+cd 12.11
+gcc - c transformation.c -o transformation.o
+gcc main.c transformation.o -o main.exe
+./main.exe
