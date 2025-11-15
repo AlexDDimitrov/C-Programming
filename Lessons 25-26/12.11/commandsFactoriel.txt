@@ -1,0 +1,4 @@
+gcc -c maths.c -o maths.o 
+ar rcs libMaths.a maths.o
+gcc -L. -lMaths mainFactoriel.c maths.o -o mainFactoriel.exe
+./mainFactoriel.exe
