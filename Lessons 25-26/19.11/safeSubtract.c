@@ -4,18 +4,29 @@
 #include "safeint.h"
 int main(int argc, char **argv) {
     if (argc < 3) {
-        printf("Error: Please provide two integers to subtract.\n");
+        printf("Error: Please provide two integers to add.\n");
         return 1;
     }
-    int a;
-    int b;
-    a = atoi(argv[1]);
-    b = atoi(argv[2]);
-    safe.value = safe_subtract(a, b);
+
+    int a = safeTurnStrToInt(argv[1]);
+    if (safe.errorflag) {
+        printf("Error: First argument is out of int range.\n");
+        return 1;
+    }
+
+    int b = safeTurnStrToInt(argv[2]);
+    if (safe.errorflag) {
+        printf("Error: Second argument is out of int range.\n");
+        return 1;
+    }
+
+    safe_subtract(a, b);
+
     if (safe.errorflag) {
         printf("Error: Integer overflow occurred during subtraction.\n");
         return 1;
     }
-    printf("Result: %d\n" , safe.value);
+
+    printf("Result: %d\n", safe.value);
     return 0;
 }

@@ -12,6 +12,6 @@ int safe_add(int a, int b);
 int safe_subtract(int a, int b);
 int safe_multiply(int a, int b);
 int safe_divide(int a, int b);
-int safeTurnStrToInt();
+int safeTurnStrToInt(const char *s);
 
 #endif

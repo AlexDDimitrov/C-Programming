@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <limits.h>
 #include "safeint.h"
-
 int main(int argc, char **argv) {
     if (argc < 3) {
         printf("Error: Please provide two integers to add.\n");
@@ -20,10 +20,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    safe_add(a, b);
+    safe_divide(a, b);
 
     if (safe.errorflag) {
-        printf("Error: Integer overflow occurred during addition.\n");
+        printf("Error: Integer overflow occurred during division.\n");
         return 1;
     }
 
