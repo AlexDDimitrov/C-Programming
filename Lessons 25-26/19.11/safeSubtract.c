@@ -2,31 +2,32 @@
 #include <stdlib.h>
 #include <limits.h>
 #include "safeint.h"
+#include "utill.h"
 int main(int argc, char **argv) {
     if (argc < 3) {
-        printf("Error: Please provide two integers to add.\n");
+        print_missing_arg_error();
         return 1;
     }
 
     int a = safeTurnStrToInt(argv[1]);
     if (safe.errorflag) {
-        printf("Error: First argument is out of int range.\n");
+        print_arg_error();
         return 1;
     }
 
     int b = safeTurnStrToInt(argv[2]);
     if (safe.errorflag) {
-        printf("Error: Second argument is out of int range.\n");
+        print_arg_error();
         return 1;
     }
 
     safe_subtract(a, b);
 
     if (safe.errorflag) {
-        printf("Error: Integer overflow occurred during subtraction.\n");
+        print_op_error();
         return 1;
     }
 
     printf("Result: %d\n", safe.value);
     return 0;
-}
+}  
