@@ -72,25 +72,37 @@ int safeTurnStrToInt(const char *s) {
 
     int sign = 1;
 
-    if (*s == '+') s++;
-    else if (*s == '-') { sign = -1; s++; }
+    if (*s == '+') {
+        s++;
+    } else if (*s == '-') {
+        sign = -1;
+        s++;
+    }
 
     while (*s) {
+
         if (*s < '0' || *s > '9') {
             safe.errorflag = 1;
             return 0;
         }
 
-        int old = safe.value;
-        if (safe_multiply(safe.value, 10), safe.errorflag) return 0;
+        safe_multiply(safe.value, 10);
+        if (safe.errorflag) return 0;
 
-        if (safe_add(old * 10, *s - '0'), safe.errorflag) return 0;
+        safe.value = safe.value;
 
-        safe.value = old * 10 + (*s - '0');
+        safe_add(safe.value, *s - '0');
+        if (safe.errorflag) return 0;
+
+        safe.value = safe.value;
+
         s++;
     }
 
-    safe.value *= sign;
+    if (sign == -1) {
+        safe_multiply(safe.value, -1);
+        if (safe.errorflag) return 0;
+    }
 
     return safe.value;
 }
