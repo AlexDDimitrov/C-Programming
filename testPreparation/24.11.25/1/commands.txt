@@ -1,0 +1,5 @@
+cd 24.11.25
+cd 1
+gcc -c mystrings.c -o mystrings.o
+gcc mystrings.o main.c -o main.exe
+./main.exe
