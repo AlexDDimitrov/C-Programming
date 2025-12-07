@@ -4,7 +4,7 @@ int main() {
     printf("Smart Home System\n");
 
     short stop = 1;
-    unsigned char lightsStatus = 0; // 8-битов статус (1 = включено)
+    unsigned char lightsStatus = 0; 
 
     while (stop) {
         printf("\n1. Switch Lights\n");
