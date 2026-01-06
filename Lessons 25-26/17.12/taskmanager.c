@@ -55,6 +55,10 @@ int main(void) {
             stopprocess(id);
             break;
         }
+
+        case 4:
+            printf("Exiting...\n");
+            return 0;
         }
     }
 
