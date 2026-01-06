@@ -3,4 +3,6 @@
 
 extern long sum;
 
+extern void addoddtosum();
+
 #endif

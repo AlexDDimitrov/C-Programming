@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 void printLights(unsigned char lights) {
-    for(int i = 0; i < 8; i++) {
-        if (lights & (1<<i)) {
+    for(int k = 0; k < 8; k++) {
+        if (lights & (1<<k)) {
             printf("ON\n");
         }
         else {
