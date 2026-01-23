@@ -76,16 +76,26 @@ void print_board() {
     printf("    A B C D E F G H I J K L M N O P\n");
 }
 
+char gen_safe_spots[][2] = {
+    {-1, -1}, {0, -1}, {1, -1},
+    {-1,  0}, {0,  0}, {1,  0},
+    {-1,  1}, {0,  1}, {1,  1}
+};
 void create_mine(int row, int col) {
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
-            if (x == row && y == col) {
-                board[x][y] = '?';
-                continue;
+            int safe = 0;
+            for (int k = 0; k < 9; k++) {
+                if (x == row + gen_safe_spots[k][0] && 
+                    y == col + gen_safe_spots[k][1]) {
+                    safe = 1;
+                    break;
+                }
             }
-            int r = rand() % 100;
-            if (r < 12) board[x][y] = '*';
-            else board[x][y] = '?';
+            if (safe)
+                board[x][y] = '?';
+            else
+                board[x][y] = (rand() % 100 < 12) ? '*' : '?';
         }
     }
 }
