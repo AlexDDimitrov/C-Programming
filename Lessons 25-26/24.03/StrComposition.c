@@ -17,7 +17,7 @@ typedef struct {
 typedef enum Boolean {
     TRUE = 1,
     FALSE = 0
-}
+} Boolean;
 
 typedef struct {
     Participant participant;
@@ -40,53 +40,79 @@ typedef struct {
     int answerCount;
 } Cause;
 
-void printCause(Cause* cause) {
-    printf("\n============================\n");
-    printf("Cause: %s\n", cause->title);
-    printf("Description: %s\n", cause->description);
-    printDate(cause->date);
-    printf("Participants %d:\n", cause->answerCount);
+void printParticipant(Participant p) {
+    printf("Paticiplant: %s %s %s\n", p.firstName, p.middleName, p.lastName);
+    printf("Mail: %s\n", p.email);
+    printf("Telephone: %s\n", p.phone);
+}
 
-    for (int i = 0; i < cause->answerCount; i++) {
-        printf("№ %d:\n", i + 1);
-        printParticipantAnswer(cause->answers[i]);
+void printParticipantAnswer(Participants pa) {
+    printParticipant(pa.participant);
+    printf("Will take pat: %s\n", pa.isParticipating ? "Yes" : "No");
+}
+
+void printDate(void* d) {
+    typedef struct{
+        int day;
+        int month;
+        int year;
+        struct {
+            int hour;
+            int minute;
+        } time;
+    } days;
+    days* day= d;
+    printf("Dat: %02d.%02d.%d %02d:%02d\n",
+           day->day, day->month, day->year, day->time.hour, day->time.minute);
+}
+
+void printCause(Cause c) {
+    printf("\nCause \n");
+    printf("Title: %s\n", c.title);
+    printf("Description: %s\n", c.description);
+    printDate(&c.date);
+    printf("Participants (%d):\n", c.answerCount);
+
+    for (int i = 0; i < c.answerCount; i++) {
+        printf("№%d:\n", i + 1);
+        printParticipantAnswer(c.answers[i]);
     }
 }
 
 int main(void) {
     Participant alex = { "Alex", "Dimitrov", "Dimitrov", "alex@gmail.com", "08787587385" };
-    Participant eli = { "Eli", "Dimitrova", "Dimitrova", "eli@gmail.com", "09585589426" };
-    Participant teo = { "Teo", "Dimitrov", "Dimitrov", "teo@gmail.com", "08997114934" };
+    Participant eli  = { "Eli",  "Dimitrova", "Dimitrova", "eli@gmail.com",  "09585589426" };
+    Participant teo  = { "Teo",  "Dimitrov",  "Dimitrov",  "teo@gmail.com",  "08997114934" };
 
     Cause saveAnimals = {
         .title = "Save the animals",
-        .description = "Help save the animals",
+        .description = "Help pls to save the animals",
         .date = { 
             .day = 24,
             .month = 3,
             .year = 2026,
-            .time = {
-                .hour = 9,
-                .minute = 00
-            }    
+            .time = { 9, 0 }
         },
         .answers = {
             { alex, TRUE },
-            { eli, FALSE },
+            { eli, FALSE }
         },
         .answerCount = 2
     };
 
     Cause savePlanet = {
         "Save the planet",
-        "Help save the planet",
+        "Help pls to save the planet",
         { 25, 5, 2026, { 14, 0 } },
         {
-            { p2, TRUE },
-            { p3, FALSE }
+            { eli, TRUE },
+            { teo, FALSE }
         },
         2
     };
 
+    printCause(saveAnimals);
+    printCause(savePlanet);
 
+    return 0;
 }
