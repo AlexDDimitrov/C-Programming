@@ -41,14 +41,14 @@ typedef struct {
 } Cause;
 
 void printParticipant(Participant p) {
-    printf("Paticiplant: %s %s %s\n", p.firstName, p.middleName, p.lastName);
+    printf("Participant: %s %s %s\n", p.firstName, p.middleName, p.lastName);
     printf("Mail: %s\n", p.email);
     printf("Telephone: %s\n", p.phone);
 }
 
 void printParticipantAnswer(Participants pa) {
     printParticipant(pa.participant);
-    printf("Will take pat: %s\n", pa.isParticipating ? "Yes" : "No");
+    printf("Will take part: %s\n", pa.isParticipating ? "Yes" : "No");
 }
 
 void printDate(void* d) {
@@ -62,7 +62,7 @@ void printDate(void* d) {
         } time;
     } days;
     days* day= d;
-    printf("Dat: %02d.%02d.%d %02d:%02d\n",
+    printf("Date: %02d.%02d.%d %02d:%02d\n",
            day->day, day->month, day->year, day->time.hour, day->time.minute);
 }
 
