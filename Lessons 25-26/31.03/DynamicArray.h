@@ -25,4 +25,6 @@ void set(DynamicArray * dynArr, uint index, DynArrType value);
 
 void release(DynamicArray * dynArr);
 
+int getIndex(DynamicArray * dynArr, uint index);
+
 #endif
