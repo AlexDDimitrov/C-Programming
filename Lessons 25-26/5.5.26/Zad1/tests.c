@@ -24,16 +24,17 @@ void addTaskWithPriority(LinkedList * list, const char * name, int priority) {
 }
 
 void changeTaskStatus(LinkedList * list, int priority, TaskStatus status) {
-    if (priority < 1 || priority > list->size) return;
-
-    Task t = get(list, priority - 1);
-    t.status = status;
-    set(list, priority - 1, t);
+    if (!(priority < 1 || priority > list->size)) {
+        Task t = get(list, priority - 1);
+        t.status = status;
+        set(list, priority - 1, t);
+    }
 }
 
 void deleteTask(LinkedList * list, int priority) {
-    if (priority < 1 || priority > list->size) return;
-    pop(list, priority - 1);
+    if (!(priority < 1 || priority > list->size)) {
+        pop(list, priority - 1);\
+    }
 }
 
 void printTasks(LinkedList * list) {
