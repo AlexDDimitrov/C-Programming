@@ -1,12 +1,17 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
+#define TITLE_MAX 100
+#define AUTHOR_MAX 100
+#define GENRE_MAX 50
+#define ISBN_MAX 20
+
 typedef struct {
-    char title[100];
-    char author[100];
-    char genre[50];
+    char title[TITLE_MAX];
+    char author[AUTHOR_MAX];
+    char genre[GENRE_MAX];
     int year;
-    char isbn[20];
+    char isbn[ISBN_MAX];
 } Book;
 
 typedef Book ListType;
