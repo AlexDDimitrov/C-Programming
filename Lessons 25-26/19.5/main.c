@@ -2,16 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "LinkedLists.h"
+#include "book.h"
+#include "Boolean.h"
 
-typedef enum {
-    false = 0,
-    true = 1
-} Boolean;
-
-void loadFromFile(LinkedList * list, const char * filename) {
+void loadFile(LinkedList * list, const char * filename) {
     FILE * file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Error occurred while opening file!\n");
+        printf("Cannot open file - R\n");
     } else {
         Book book;
         while (fscanf(file, "%s %s %s %d %s", book.title, book.author, book.genre, &book.year, book.isbn) == 5) {
@@ -22,19 +19,18 @@ void loadFromFile(LinkedList * list, const char * filename) {
     }
 }
 
-void saveToFile(LinkedList * list, const char * filename) {
+void saveFile(LinkedList * list, const char * filename) {
     FILE * file = fopen(filename, "w");
     if (file == NULL) {
-        printf("Error occurred while writing to file!\n");
+        printf("Cannot open file - W\n");
     } else {
         Node * current = list->head;
         while (current != NULL) {
             Book book = current->value;
             fprintf(file, "%s %s %s %d %s\n", book.title, book.author, book.genre, book.year, book.isbn);
             current = current->next;
-            fflush(file);
         }
-
+        fflush(file);
         fclose(file);
     }
 }
@@ -43,27 +39,31 @@ void addBook(LinkedList * list) {
     Book book;
 
     printf("Enter book title: ");
+    //fgets(book.title, sizeof(book.title), stdin); - gave me a error
     scanf("%s", book.title);
 
     printf("Enter author: ");
+    //fgets(book.author, sizeof(book.author), stdin);
     scanf("%s", book.author);
 
     printf("Enter genre: ");
+    //fgets(book.genre, sizeof(book.genre), stdin);
     scanf("%s", book.genre);
 
     printf("Enter year: ");
     scanf("%d", &book.year);
+    //getchar();
 
     printf("Enter ISBN: ");
+    //fgets(book.isbn, sizeof(book.isbn), stdin);
     scanf("%s", book.isbn);
 
     pushBack(list, book);
-    printf("Book added successfully!\n");
 }
 
-void printBooks(LinkedList * list) {
+void printList(LinkedList * list) {
     if (list->size == 0) {
-        printf("No books available.\n");
+        printf("No books in the library.\n");
     } else {
         Node * current = list->head;
         int index = 1;
@@ -81,12 +81,13 @@ void printBooks(LinkedList * list) {
     }
 }
 
-void deleteByISBN(LinkedList * list) {
+void ISBN_delete(LinkedList * list) {
     if (list->size == 0) {
-        printf("No books available for deletion.\n");
+        printf("No books to delete.\n");
     } else {
         char isbn[20];
-        printf("Enter ISBN for deletion: ");
+        printf("Enter ISBN: ");
+        //fgets(isbn, sizeof(isbn), stdin);
         scanf("%s", isbn);
 
         Node * current = list->head;
@@ -94,10 +95,9 @@ void deleteByISBN(LinkedList * list) {
 
         Boolean isfound = false;
         while (current != NULL) {
-            Book book = current->value;
-            if (strcmp(book.isbn, isbn) == 0) {
+            if (strcmp(current->value.isbn, isbn) == 0) {
                 pop(list, index);
-                printf("Book deleted successfully!\n");
+                printf("Book deleted\n");
                 isfound = true;
             }
             current = current->next;
@@ -105,7 +105,7 @@ void deleteByISBN(LinkedList * list) {
         }
 
         if (!isfound) {
-            printf("No book found with the given ISBN.\n");
+            printf("No books found\n");
         }
     }
 }
@@ -114,7 +114,7 @@ int main() {
     LinkedList library = init();
     const char * filename = "library.txt";
 
-    loadFromFile(&library, filename);
+    loadFile(&library, filename);
 
     int choice;
     do {
@@ -126,19 +126,20 @@ int main() {
         printf("5. Exit\n");
         printf("Choose an option: ");
         scanf("%d", &choice);
+        //getchar();
 
         switch (choice) {
             case 1: addBook(&library); break;
-            case 2: printBooks(&library); break;
-            case 3: deleteByISBN(&library); break;
-            case 4: saveToFile(&library, filename); 
-                    printf("File saved successfully!\n");
+            case 2: printList(&library); break;
+            case 3: ISBN_delete(&library); break;
+            case 4: saveFile(&library, filename); 
+                    printf("File saved\n");
                     break;
             case 5: 
-                    saveToFile(&library, filename);
+                    saveFile(&library, filename);
                     printf("Exiting...\n");
                     break;
-            default: printf("Invalid choice!\n");
+            default: printf("Invalid choice\n");
         }
 
     } while (choice != 5);
