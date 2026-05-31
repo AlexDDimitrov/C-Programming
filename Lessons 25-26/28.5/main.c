@@ -10,7 +10,8 @@ char currentFile[256];
 void write(FILE* f, Person* c) {
     fwrite(c->egn, sizeof(char), 10, f);
     fwrite(&c->name_len, sizeof(unsigned char), 1, f);
-    fwrite(c->name, sizeof(char), c->name_len, f);
+    int len = c->name_len;
+    fwrite(c->name, sizeof(char), len, f);
     fwrite(&c->age, sizeof(unsigned char), 1, f);
     fwrite(&c->education, sizeof(char), 1, f);
     fwrite(&c->working, sizeof(char), 1, f);
@@ -25,7 +26,8 @@ int read(FILE* f, Person* c) {
 
     fread(&c->name_len, sizeof(unsigned char), 1, f);
 
-    fread(c->name, sizeof(char), c->name_len, f);
+    int len = c->name_len;
+    fread(c->name, sizeof(char), len, f);
 
     c->name[c->name_len] = '\0';
 
