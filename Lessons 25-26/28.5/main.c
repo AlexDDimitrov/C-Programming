@@ -190,14 +190,14 @@ void delete(FILE* file) {
 
         if (count == 0) {
             printf("File s empty.\n");
-            return;
+            exit(1);
         }
 
         Person* list = malloc(count * sizeof(Person));
 
         if (!list) {
             printf("Memory alloc error.\n");
-            return;
+            exit(1);
         }
 
         rewind(file);
@@ -212,7 +212,8 @@ void delete(FILE* file) {
         for (int i = 0; i < count; i++) {
 
             if (strcmp(list[i].egn, str) != 0) {
-                list[newCount++] = list[i];
+                list[newCount] = list[i];
+                newCount++;
             } else {
                 found = 1;
             }
@@ -226,7 +227,7 @@ void delete(FILE* file) {
         if (!file) {
             printf("File error.\n");
             free(list);
-            return;
+            exit(1);
         }
 
         for (int i = 0; i < newCount; i++) {
@@ -263,7 +264,7 @@ FILE * open() {
 
         if (!file) {
             printf("Cannot make file.\n");
-            return NULL;
+            exit(1);
         }
 
         printf("New file crated.\n");
