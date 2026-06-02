@@ -5,51 +5,66 @@
 
 #define FILENAME "books.csv"
 
-void load(Book * books) {
+void save(Book * books, int bookCount) {
+    File * file = fopen(FILENAME, "w");
+    if (file == NULL) {
+        printf("Error opening the file for writing!");
+        exit(1);
+    }
+
+    for (int i = 0; i < bookCount; i++) {
+        fprintf(file, "%s,%s,%s,%d,%s\n", books[i].title, books[i].author, books[i].genre, books[i].year, books[i].isbn);
+    }
+    fflush(file);
+    fclose(file);
+}
+
+void load(Book * books, int * bookCount) {
     File * file = fopen(FILENAME, "r");
     if (file == NULL) {
-        printf("Error opening the file!")
-        save(books);
+        printf("Error opening the file!");
+        save(books, *bookCount);
         exit(1);
     }
     
     char line[((MAX_LENGTH * 5) + 1)];
     int count = 0;
 
-    while(fgets(&line, ((MAX_LENGTH * 5) + 1), file)) {
+    char trash[((MAX_LENGTH * 5) + 1)];
+    while(fgets(trash, ((MAX_LENGTH * 5) + 1), file)) {
         count++;
     }
 
     rewind(file);
     books = malloc(count * sizeof(Book));
     int linei = 0;
-    while(fgets(&line, ((MAX_LENGTH * 5) + 1), file)) {
+    while(fgets(line, ((MAX_LENGTH * 5) + 1), file)) {
         
-        line[strcspn(&line, '\0')] = '\n';
+        line[strcspn(line, '\0')] = '\n';
 
-        char* token = strtok(line, ',');
+        char* token = strtok(line, ",");
         if(token != NULL) {
-            strcpy(books[linei].name, token);
+            strcpy(books[linei].title, token);
         }
 
-        token = strtok(NULL, ',');
+        token = strtok(NULL, ",");
         if(token != NULL) {
             strcpy(books[linei].author, token);
         }
 
-        token = strtok(NULL, ',');
+        token = strtok(NULL, ",");
         if(token != NULL) {
             strcpy(books[linei].genre, token);
         }
 
-        token = strtok(NULL, ',');
+        token = strtok(NULL, ",");
         if(token != NULL) {
             books[linei].year = atoi(token);
         }
 
-        token = strtok(NULL, ',');
+        token = strtok(NULL, ",");
         if(token != NULL) {
-            strcpy(books[linei].ISBN, token);
+            strcpy(books[linei].isbn, token);
         }
 
         linei++;
@@ -58,6 +73,7 @@ void load(Book * books) {
     printf("Loaded %d books from file.\n", count);
     fclose(file);
 }
+
 void add(Book * books, int * bookCount) {
     Book * temp = realloc(books, ((*bookCount) + 1) * sizeof(Book));
     if (temp == NULL) {
@@ -70,25 +86,27 @@ void add(Book * books, int * bookCount) {
 
     printf("Enter book title: ");
     getchar();
-    fgets(newBook.title, sizeof(newBook.title), stdin);
+    fgets(newBook.title, MAX_LENGTH, stdin);
     newBook.title[strcspn(newBook.title, "\n")] = 0;
 
     printf("Enter author: ");
-    fgets(newBook.author, sizeof(newBook.author), stdin);
+    fgets(newBook.author, MAX_LENGTH, stdin);
     newBook.author[strcspn(newBook.author, "\n")] = 0;
 
     printf("Enter genre: ");
-    fgets(newBook.genre, sizeof(newBook.genre), stdin);
+    fgets(newBook.genre, MAX_LENGTH, stdin);
     newBook.genre[strcspn(newBook.genre, "\n")] = 0;
 
     printf("Enter year: ");
     scanf("%d", &newBook.year);
 
-    printf("Enter ISBN: ");
+    printf("Enter isbn: ");
     scanf("%s", newBook.isbn);
 
     books[(*bookCount)] = newBook;
     (*bookCount)++;
+
+    save(books, *bookCount);
 }
 
 void print(Book * books, int bookCount) {
@@ -101,14 +119,14 @@ void print(Book * books, int bookCount) {
         printf("Author: %s\n", books[i].author);
         printf("Genre: %s\n", books[i].genre);
         printf("Year: %d\n", books[i].year);
-        printf("ISBN: %s\n", books[i].isbn);
+        printf("isbn: %s\n", books[i].isbn);
         printf("\n");
     }
 }
 
 void delete(Book * books, int * bookCount) {
     char isbn[20];
-    printf("Въведете ISBN за изтриване: ");
+    printf("Въведете isbn за изтриване: ");
     scanf("%s", isbn);
     getchar();
 
@@ -121,7 +139,7 @@ void delete(Book * books, int * bookCount) {
     }
 
     if (foundIndex == -1) {
-        printf("Book with ISBN %s not found.\n", isbn);
+        printf("Book with isbn %s not found.\n", isbn);
         return;
     }
 
@@ -131,7 +149,11 @@ void delete(Book * books, int * bookCount) {
     (*bookCount)--;
 }
 
-void 
+void stop(Book * books, int bookCount) {
+    printf("Exiting the program\n");
+    save(books, bookCount);
+    exit(0);
+}
 
 int main(void) {
     Book * books= NULL;
@@ -141,20 +163,21 @@ int main(void) {
     int choice;
     while (1) {
         printf("\nElectronic Library\n");
-        printf("1. Add Book\n");
-        printf("2. List Books\n");
-        printf("3. Delete Book by ISBN\n");
-        printf("4. Save to File\n");
+        printf("1. Add\n");
+        printf("2. Print\n");
+        printf("3. Delete\n");
+        printf("4. Save\n");
         printf("5. Exit\n");
-        printf("Choose an option: ");
+        printf("Choose: ");
         scanf("%d", &choice);
+        getchar();
 
         switch (choice) {
             case 1: add(books, &bookCount); break;
             case 2: print(books, bookCount); break;
             case 3: delete(books, &bookCount); break;
             case 4: save(books, bookCount); break;
-            case 5: stop(); break;
+            case 5: stop(books, bookCount); break;
             default: printf("Invalid choice.\n");
         }
 

@@ -5,11 +5,11 @@
 typedef FILE File;
 
 typedef struct Book {
-    char name[MAX_LENGTH];
+    char title[MAX_LENGTH];
     char author[MAX_LENGTH];
     char genre[MAX_LENGTH];
     int year;
-    char ISBN[MAX_LENGTH];
+    char isbn[MAX_LENGTH];
 } Book;
 
 #endif
