@@ -186,3 +186,5 @@ int main(void) {
     free(books);
     return 0;
 }
+
+//ADD DYNAMIC ARRAY OR LINKED LIST TO FIX ERRORSs
