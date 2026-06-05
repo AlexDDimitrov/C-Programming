@@ -11,3 +11,79 @@
            Име на работник 4
            Име на работник 5
            Име на работник 6*/
+
+#include "wor-types.h"
+
+static void check_alloc(void* ptr) {
+    if (ptr == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+}
+
+Employee* create(const char* name, int subNum) {
+    Employee * temp = malloc(sizeof(Employee));
+    
+    check_alloc(temp);
+
+    strcpy(temp->name, name);
+    temp->subC = subNum;
+    if (subNum > 0) {
+        temp->subs = malloc(subNum * sizeof(Employee*));
+        check_alloc(temp->subs);
+    } else {
+        temp->subs = NULL;
+    }
+    return temp;
+}
+
+void freeEmp(Employee* emp) {
+    if (emp) {
+        for (int i = 0; i < emp->subC; i++) {
+            freeEmp(emp->subs[i]);
+        }
+
+        free(emp->subs);
+        free(emp);
+    }
+}
+
+void serialize(Employee* emp, FILE* file) {
+    if (emp != NULL) {
+        fwrite(emp->name, sizeof(char), MAX_NAME_LENGTH, file);
+        fwrite(&emp->subC, sizeof(int), 1, file);
+
+        for (int i = 0; i < emp->subC; i++) {
+            serialize(emp->subs[i], file);
+        }
+    }
+}
+
+Employee* deserialize(FILE* file) {
+    Employee* emp = malloc(sizeof(Employee));
+
+    check_alloc(emp);
+
+    fread(emp->name, sizeof(char), MAX_NAME_LENGTH, file);
+    fread(&emp->subC, sizeof(int), 1, file);
+
+    if (emp->subC > 0) {
+        emp->subs = malloc(sizeof(Employee*) * emp->subC);
+        check_alloc(emp->subs);
+        for (int i = 0; i < emp->subC; i++) {
+            emp->subs[i] = deserialize(file);
+        }
+    } else {
+        emp->subs = NULL;
+    }
+
+    return emp;
+}
+
+void printEmp(Employee* emp) {
+    printf("%s\n", emp->name);
+
+    for (int i = 0; i < emp->subC; i++) {
+        printEmp(emp->subs[i]);
+    }
+}
