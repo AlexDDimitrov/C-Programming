@@ -5,12 +5,16 @@
 
 #define FILENAME "books.csv"
 
-void save(Book * books, int bookCount) {
-    File * file = fopen(FILENAME, "w");
-    if (file == NULL) {
-        printf("Error opening the file for writing!");
+void check_alloc(void * ptr) {
+    if (ptr == NULL) {
+        printf("Memory allocation failed!\n");
         exit(1);
     }
+}
+
+void save(Book * books, int bookCount) {
+    File * file = fopen(FILENAME, "w");
+    check_alloc(file);
 
     for (int i = 0; i < bookCount; i++) {
         fprintf(file, "%s,%s,%s,%d,%s\n", books[i].title, books[i].author, books[i].genre, books[i].year, books[i].isbn);
@@ -21,11 +25,7 @@ void save(Book * books, int bookCount) {
 
 Book * load(Book * books, int * bookCount) {
     File * file = fopen(FILENAME, "r");
-    if (file == NULL) {
-        printf("File not found. Creating new file.\n");
-        save(books, *bookCount);
-        return NULL;
-    }
+    check_alloc(file);
     
     char line[256];
     int count = 0;
@@ -42,6 +42,7 @@ Book * load(Book * books, int * bookCount) {
     }
 
     books = malloc(count * sizeof(Book));
+    check_alloc(books);
     *bookCount = count;
 
     int i = 0;
@@ -72,8 +73,10 @@ Book * load(Book * books, int * bookCount) {
 }
 
 Book * add(Book * books, int * bookCount) {
-    books = realloc(books, (*bookCount + 1) * sizeof(Book));
+    Book * temp = realloc(books, (*bookCount + 1) * sizeof(Book));
+    check_alloc(temp);
 
+    books = temp;
     Book * b = &books[*bookCount];
 
     while (getchar() != '\n');
