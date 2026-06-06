@@ -27,7 +27,7 @@ Book * load(Book * books, int * bookCount) {
     File * file = fopen(FILENAME, "r");
     check_alloc(file);
     
-    char line[256];
+    char line[(MAX_LENGTH * 4) + sizeof(int) + 10];
     int count = 0;
 
     while (fgets(line, sizeof(line), file)) {
